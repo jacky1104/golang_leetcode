@@ -157,3 +157,60 @@ func uniquePathsWithObstacles(obstacleGrid [][]int) int {
 	return mark[0][0]
 
 }
+
+
+//https://leetcode.com/problems/minimum-path-sum/
+
+func TestMinPathSum(t *testing.T){
+
+	grid := [][]int {{1,3,1},{1,5,1},{4,2,1}}
+
+	fmt.Println(minPathSum(grid))
+
+	grid = [][]int{{0,1}}
+	fmt.Println(minPathSum(grid))
+
+	grid = [][]int{{0}}
+	fmt.Println(minPathSum(grid))
+
+	grid = [][]int{{1,0}}
+	fmt.Println(minPathSum(grid))
+
+	grid = [][]int{{1},{1}}
+	fmt.Println(minPathSum(grid))
+
+}
+
+
+func minPathSum(grid [][]int) int {
+
+	m := len(grid)
+	n := len(grid[0])
+	//init the matrix
+	mark := make([][]int,m)
+	for i:= 0; i<m ; i++  {
+		mark[i] = make([]int,n)
+	}
+	mark[m-1][n-1] = grid[m-1][n-1]
+	// the last column
+	for i := m - 2; i >= 0; i-- {
+		mark[i][n-1] = mark[i+1][n-1] + grid[i][n-1]
+	}
+	//the last row
+	for i := n - 2; i >= 0; i-- {
+		mark[m-1][i] = mark[m-1][i + 1] + grid[m-1][i]
+	}
+
+	for i := m - 2; i >= 0; i-- {
+		for j := n - 2; j >= 0; j-- {
+			if mark[i][j+1] > mark[i+1][j] {
+				mark[i][j] = grid[i][j] + mark[i+1][j]
+			}else{
+				mark[i][j] = grid[i][j] + mark[i][j + 1]
+			}
+		}
+	}
+
+	return mark[0][0]
+
+}
