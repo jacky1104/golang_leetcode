@@ -95,11 +95,11 @@ func TestYushu(t *testing.T) {
 //https://leetcode.com/problems/unique-paths-ii/
 func TestUniquePath(t *testing.T) {
 
-	obstacleGrid := [][]int {{0,0,0},{0,1,0},{0,0,0}}
+	obstacleGrid := [][]int{{0, 0, 0}, {0, 1, 0}, {0, 0, 0}}
 
 	fmt.Println(uniquePathsWithObstacles(obstacleGrid))
 
-	obstacleGrid = [][]int{{0,0}}
+	obstacleGrid = [][]int{{0, 0}}
 	fmt.Println(uniquePathsWithObstacles(obstacleGrid))
 
 	obstacleGrid = [][]int{{0}}
@@ -115,12 +115,12 @@ func uniquePathsWithObstacles(obstacleGrid [][]int) int {
 	m := len(obstacleGrid)
 	n := len(obstacleGrid[0])
 	//init the matrix
-	mark := make([][]int,m)
-	for i:= 0; i<m ; i++  {
-		mark[i] = make([]int,n)
+	mark := make([][]int, m)
+	for i := 0; i < m; i++ {
+		mark[i] = make([]int, n)
 	}
 
-	if obstacleGrid[m-1][n-1] == 1{
+	if obstacleGrid[m-1][n-1] == 1 {
 		return 0
 	}
 
@@ -148,7 +148,7 @@ func uniquePathsWithObstacles(obstacleGrid [][]int) int {
 		for j := n - 2; j >= 0; j-- {
 			if obstacleGrid[i][j] == 1 {
 				mark[i][j] = 0
-			}else{
+			} else {
 				mark[i][j] = mark[i+1][j] + mark[i][j+1]
 			}
 		}
@@ -158,38 +158,36 @@ func uniquePathsWithObstacles(obstacleGrid [][]int) int {
 
 }
 
-
 //https://leetcode.com/problems/minimum-path-sum/
 
-func TestMinPathSum(t *testing.T){
+func TestMinPathSum(t *testing.T) {
 
-	grid := [][]int {{1,3,1},{1,5,1},{4,2,1}}
+	grid := [][]int{{1, 3, 1}, {1, 5, 1}, {4, 2, 1}}
 
 	fmt.Println(minPathSum(grid))
 
-	grid = [][]int{{0,1}}
+	grid = [][]int{{0, 1}}
 	fmt.Println(minPathSum(grid))
 
 	grid = [][]int{{0}}
 	fmt.Println(minPathSum(grid))
 
-	grid = [][]int{{1,0}}
+	grid = [][]int{{1, 0}}
 	fmt.Println(minPathSum(grid))
 
-	grid = [][]int{{1},{1}}
+	grid = [][]int{{1}, {1}}
 	fmt.Println(minPathSum(grid))
 
 }
-
 
 func minPathSum(grid [][]int) int {
 
 	m := len(grid)
 	n := len(grid[0])
 	//init the matrix
-	mark := make([][]int,m)
-	for i:= 0; i<m ; i++  {
-		mark[i] = make([]int,n)
+	mark := make([][]int, m)
+	for i := 0; i < m; i++ {
+		mark[i] = make([]int, n)
 	}
 	mark[m-1][n-1] = grid[m-1][n-1]
 	// the last column
@@ -198,19 +196,67 @@ func minPathSum(grid [][]int) int {
 	}
 	//the last row
 	for i := n - 2; i >= 0; i-- {
-		mark[m-1][i] = mark[m-1][i + 1] + grid[m-1][i]
+		mark[m-1][i] = mark[m-1][i+1] + grid[m-1][i]
 	}
 
 	for i := m - 2; i >= 0; i-- {
 		for j := n - 2; j >= 0; j-- {
 			if mark[i][j+1] > mark[i+1][j] {
 				mark[i][j] = grid[i][j] + mark[i+1][j]
-			}else{
-				mark[i][j] = grid[i][j] + mark[i][j + 1]
+			} else {
+				mark[i][j] = grid[i][j] + mark[i][j+1]
 			}
 		}
 	}
 
 	return mark[0][0]
 
+}
+
+//https://leetcode.com/problems/unique-binary-search-trees/
+//https://leetcode.com/problems/unique-binary-search-trees-ii/
+
+func TestUniqueBinarySearchTree(t *testing.T) {
+
+	fmt.Println(generateTreesOne(1))
+	fmt.Println(generateTreesOne(2))
+	fmt.Println(generateTreesOne(3))
+	fmt.Println(generateTreesOne(4))
+	fmt.Println(generateTreesOne(5))
+}
+
+
+
+func generateTreesOne(n int) int{
+
+
+	if n == 1 || n == 2{
+		return  n
+	}
+
+	if n == 3{
+		return 5
+	}
+	count := make([]int, n + 1)
+	count[0] = 1
+	count[1] = 1
+	count[2] = 2
+	count[3] = 5
+
+	for i := 4; i<=n ; i++{
+		//root node value
+		for j := 1; j<=i; j++{
+			//left tree * right tree
+			count[i] += count[j-1] * count[i-j]
+		}
+	}
+	return count[n]
+
+}
+
+
+type TreeNode struct {
+	Val   int
+	Left  *TreeNode
+	Right *TreeNode
 }
