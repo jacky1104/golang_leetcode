@@ -76,3 +76,40 @@ func zigzagLevelOrder(root *TreeNode) [][]int {
 
 	return result
 }
+
+func levelOrderBottom(root *TreeNode) [][]int {
+
+	if root == nil {
+		return nil
+	}
+
+	result := make([][]int, 0)
+	currentLevel := make([]*TreeNode, 1)
+	currentLevel[0] = root
+
+	for len(currentLevel) > 0 {
+		value := make([]int, 0)
+		nextLevel := make([]*TreeNode, 0)
+		for _, v := range currentLevel {
+			value = append(value, v.Val)
+			if v.Left != nil {
+				nextLevel = append(nextLevel, v.Left)
+			}
+			if v.Right != nil {
+				nextLevel = append(nextLevel, v.Right)
+			}
+
+		}
+		currentLevel = nextLevel
+		result = append(result, value)
+	}
+
+	//reverse result
+	for i := len(result)/2 - 1; i >= 0; i-- {
+		opp := len(result) - 1 - i
+		result[i], result[opp] = result[opp], result[i]
+	}
+
+	return result
+
+}
