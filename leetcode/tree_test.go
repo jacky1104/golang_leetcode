@@ -37,3 +37,55 @@ func postOrderTraversal(root *TreeNode) []int {
 
 	return result
 }
+
+func isBalanced(root *TreeNode) bool {
+
+	if root == nil {
+		return true
+	}
+	left, lban := GetMaxTreeDepthWhenBalance(root.Left)
+	right, rban := GetMaxTreeDepthWhenBalance(root.Right)
+
+	if !lban || !rban {
+		return false
+	}
+
+	if abs(left-right) > 1 {
+		return false
+	}
+
+	return true
+}
+
+func GetMaxTreeDepthWhenBalance(root *TreeNode) (int, bool) {
+	if root == nil {
+		return 0, true
+	}
+
+	left, leftBan := GetMaxTreeDepthWhenBalance(root.Left)
+	right, rightBan := GetMaxTreeDepthWhenBalance(root.Right)
+
+	if !leftBan || !rightBan {
+		return 0, false
+	}
+
+	if abs(left-right) > 1 {
+		return 0, false
+	}
+
+	return 1 + maxValue(left, right), true
+}
+
+func abs(value int) int {
+	if value >= 0 {
+		return value
+	}
+	return value * -1
+}
+
+func maxValue(left, right int) int {
+	if left-right > 0 {
+		return left
+	}
+	return right
+}
