@@ -1,5 +1,7 @@
 package leetcode
 
+import "fmt"
+
 func singleNumber(nums []int) int {
 
 	result := 0
@@ -68,4 +70,27 @@ func singleNumber3(nums []int) []int {
 
 	return result
 
+}
+
+func reverseBits(num uint32) uint32 {
+
+	var res uint32
+	for i := 31; i >= 0; i-- {
+		res = res | ((num & 1) << uint(i))
+		num = num >> 1
+	}
+	return res
+}
+
+func hammingWeight(num uint32) int {
+
+	res := 0
+	for i := 0; i < 32; i++ {
+		if num&1 == 1 {
+			res++
+		}
+		num = num >> 1
+	}
+	fmt.Println(num)
+	return res
 }
