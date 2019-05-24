@@ -90,6 +90,37 @@ func maxValue(left, right int) int {
 	return right
 }
 
+/**
+111. Minimum Depth of Binary Tree
+https://leetcode.com/problems/minimum-depth-of-binary-tree/
+*/
+func minDepth(root *TreeNode) int {
+
+	if root == nil {
+		return 0
+	}
+
+	if root.Left == nil && root.Right == nil {
+		return 1
+	}
+
+	left := minDepth(root.Left)
+	right := minDepth(root.Right)
+
+	if left == 0 {
+		return 1 + right
+	}
+	if right == 0 {
+		return 1 + left
+	}
+	if left > right {
+		return right + 1
+	}
+
+	return left + 1
+
+}
+
 func hasPathSum(root *TreeNode, sum int) bool {
 
 	if root == nil {
