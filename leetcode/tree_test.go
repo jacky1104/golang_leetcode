@@ -134,3 +134,39 @@ func hasPathSum(root *TreeNode, sum int) bool {
 	return hasPathSum(root.Left, sum-root.Val) || hasPathSum(root.Right, sum-root.Val)
 
 }
+
+/**
+113. Path Sum II
+https://leetcode.com/problems/path-sum-ii/
+*/
+func pathSum(root *TreeNode, sum int) [][]int {
+
+	var res = make([][]int, 0)
+
+	if root == nil {
+		return res
+	}
+
+	if root.Left == nil && root.Right == nil && root.Val == sum {
+		res = append(res, []int{root.Val})
+		return res
+	}
+
+	left := pathSum(root.Left, sum-root.Val)
+	right := pathSum(root.Right, sum-root.Val)
+
+	if len(left) > 0 {
+		for _, v := range left {
+			res = append(res, append([]int{root.Val}, v...))
+		}
+	}
+
+	if len(right) > 0 {
+		for _, v := range right {
+			res = append(res, append([]int{root.Val}, v...))
+		}
+	}
+
+	return res
+
+}
