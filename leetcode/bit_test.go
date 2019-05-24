@@ -1,7 +1,5 @@
 package leetcode
 
-import "fmt"
-
 func singleNumber(nums []int) int {
 
 	result := 0
@@ -91,6 +89,29 @@ func hammingWeight(num uint32) int {
 		}
 		num = num >> 1
 	}
-	fmt.Println(num)
 	return res
+}
+
+func missingNumber1(nums []int) int {
+
+	res, i := 0, 0
+
+	for _, v := range nums {
+		res = res ^ v ^ i
+		i++
+	}
+	res ^= i
+	return res
+}
+
+func missingNumber2(nums []int) int {
+
+	res := 0
+	for _, v := range nums {
+		res += v
+	}
+	for i := 0; i < len(nums)+1; i++ {
+		res -= i
+	}
+	return res * -1
 }
