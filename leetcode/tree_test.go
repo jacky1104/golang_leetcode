@@ -1,5 +1,9 @@
 package leetcode
 
+import (
+	"strconv"
+)
+
 func inOrderTraversal(root *TreeNode) []int {
 
 	if root == nil {
@@ -168,5 +172,34 @@ func pathSum(root *TreeNode, sum int) [][]int {
 	}
 
 	return res
+
+}
+
+/**
+257. Binary Tree Paths
+https://leetcode.com/problems/binary-tree-paths/
+*/
+
+func binaryTreePaths(root *TreeNode) []string {
+
+	if root == nil {
+		return []string{}
+	}
+
+	if root.Left == nil && root.Right == nil {
+		return []string{strconv.Itoa(root.Val)}
+	}
+
+	left := binaryTreePaths(root.Left)
+	for i := 0; i < len(left); i++ {
+		left[i] = strconv.Itoa(root.Val) + "->" + left[i]
+	}
+
+	right := binaryTreePaths(root.Right)
+	for i := 0; i < len(right); i++ {
+		right[i] = strconv.Itoa(root.Val) + "->" + right[i]
+	}
+
+	return append(left, right...)
 
 }
