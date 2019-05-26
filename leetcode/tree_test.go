@@ -203,3 +203,39 @@ func binaryTreePaths(root *TreeNode) []string {
 	return append(left, right...)
 
 }
+
+///**
+//988. Smallest String Starting From Leaf
+//https://leetcode.com/problems/smallest-string-starting-from-leaf/
+// */
+//func smallestFromLeaf(root *TreeNode) string {
+//
+//}
+
+/**
+100. Same Tree
+https://leetcode.com/problems/same-tree/
+*/
+func isSameTree(p *TreeNode, q *TreeNode) bool {
+
+	if p == nil && q == nil {
+		return true
+	}
+	if p == nil && q != nil {
+		return false
+	}
+
+	if p != nil && q == nil {
+		return false
+	}
+
+	if p.Val != q.Val {
+		return false
+	}
+
+	if isSameTree(p.Left, q.Left) && isSameTree(p.Right, q.Right) {
+		return true
+	}
+
+	return false
+}
