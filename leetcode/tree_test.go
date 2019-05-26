@@ -271,3 +271,49 @@ func increasingBST(root *TreeNode) *TreeNode {
 	temp.Right = root
 	return left
 }
+
+/**
+872. Leaf-Similar Trees
+https://leetcode.com/problems/leaf-similar-trees/
+*/
+
+func leafSimilar(root1 *TreeNode, root2 *TreeNode) bool {
+
+	leafOne := getLeafFromTree(root1)
+	leafTwo := getLeafFromTree(root2)
+
+	if len(leafOne) != len(leafTwo) {
+		return false
+	}
+
+	if len(leafOne) == 0 {
+		return true
+	}
+	for i := 0; i < len(leafOne); i++ {
+		if leafOne[i] != leafTwo[i] {
+			return false
+		}
+
+	}
+	return true
+
+}
+
+func getLeafFromTree(root *TreeNode) []int {
+	if root == nil {
+		return nil
+	}
+
+	res := make([]int, 0)
+
+	if root.Left == nil && root.Right == nil {
+		res = append(res, root.Val)
+		return res
+	}
+
+	res = append(res, getLeafFromTree(root.Left)...)
+	res = append(res, getLeafFromTree(root.Right)...)
+
+	return res
+
+}
