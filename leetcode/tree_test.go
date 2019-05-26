@@ -359,3 +359,67 @@ func isValidBST(root *TreeNode) bool {
 	return isValidBST(root.Left) && isValidBST(root.Right)
 
 }
+
+/**
+1022. Sum of Root To Leaf Binary Numbers
+https://leetcode.com/problems/sum-of-root-to-leaf-binary-numbers/
+*/
+func sumRootToLeaf(root *TreeNode) int {
+
+	if root == nil {
+		return 0
+	}
+
+	if root.Left == nil && root.Right == nil {
+		return root.Val
+	}
+
+	res := findPath(root)
+	var sum int64
+	for i := 0; i < len(res); i++ {
+		val, err := strconv.ParseInt(res[i], 2, 64)
+		if err == nil {
+			sum += val
+		}
+	}
+	return int(sum)
+
+}
+
+func findPath(root *TreeNode) []string {
+
+	if root == nil {
+		return nil
+	}
+
+	if root.Left == nil && root.Right == nil {
+		return []string{strconv.Itoa(root.Val)}
+	}
+
+	left := findPath(root.Left)
+	for i := 0; i < len(left); i++ {
+		left[i] = strconv.Itoa(root.Val) + left[i]
+	}
+
+	right := findPath(root.Right)
+	for i := 0; i < len(right); i++ {
+		right[i] = strconv.Itoa(root.Val) + right[i]
+	}
+
+	return append(left, right...)
+}
+
+func sumRootToLeaf2(root *TreeNode) int {
+	return dfs(root, 0)
+}
+
+func dfs(root *TreeNode, cur int) int {
+	if root == nil {
+		return 0
+	}
+	cur = cur<<1 | root.Val
+	if root.Left == nil && root.Right == nil {
+		return cur
+	}
+	return dfs(root.Left, cur) + dfs(root.Right, cur)
+}
