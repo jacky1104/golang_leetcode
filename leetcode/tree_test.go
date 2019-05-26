@@ -239,3 +239,35 @@ func isSameTree(p *TreeNode, q *TreeNode) bool {
 
 	return false
 }
+
+/**
+897. Increasing Order Search Tree
+https://leetcode.com/problems/increasing-order-search-tree/
+*/
+
+func increasingBST(root *TreeNode) *TreeNode {
+
+	if root == nil {
+		return nil
+	}
+
+	if root.Left == nil && root.Right == nil {
+		return root
+	}
+
+	left := increasingBST(root.Left)
+	right := increasingBST(root.Right)
+	root.Right = right
+	root.Left = nil
+
+	if left == nil {
+		return root
+	}
+
+	temp := left
+	for temp != nil && temp.Right != nil {
+		temp = temp.Right
+	}
+	temp.Right = root
+	return left
+}
