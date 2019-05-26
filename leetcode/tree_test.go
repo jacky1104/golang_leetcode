@@ -317,3 +317,45 @@ func getLeafFromTree(root *TreeNode) []int {
 	return res
 
 }
+
+/**
+98. Validate Binary Search Tree
+https://leetcode.com/problems/validate-binary-search-tree/
+*/
+func isValidBST(root *TreeNode) bool {
+
+	if root == nil || (root.Left == nil && root.Right == nil) {
+		return true
+	}
+
+	if root.Left != nil {
+		if root.Val <= root.Left.Val {
+			return false
+		}
+
+		leftRight := root.Left
+		for leftRight != nil && leftRight.Right != nil {
+			leftRight = leftRight.Right
+		}
+		if leftRight.Val >= root.Val {
+			return false
+		}
+	}
+
+	if root.Right != nil {
+		if root.Val >= root.Right.Val {
+			return false
+		}
+
+		rightLeft := root.Right
+		for rightLeft != nil && rightLeft.Left != nil {
+			rightLeft = rightLeft.Left
+		}
+		if rightLeft.Val <= root.Val {
+			return false
+		}
+	}
+
+	return isValidBST(root.Left) && isValidBST(root.Right)
+
+}
