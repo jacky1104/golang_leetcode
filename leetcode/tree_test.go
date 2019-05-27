@@ -423,3 +423,59 @@ func dfs(root *TreeNode, cur int) int {
 	}
 	return dfs(root.Left, cur) + dfs(root.Right, cur)
 }
+
+/**
+95. Unique Binary Search Trees II
+https://leetcode.com/problems/unique-binary-search-trees-ii/
+
+Dynamic programming, Tree
+*/
+
+func generateTrees(n int) []*TreeNode {
+
+	if n == 0 {
+		return nil
+	}
+
+	return generateTreesWithStartEndValue(1, n)
+}
+
+/**
+End value should be greater than start value.
+*/
+func generateTreesWithStartEndValue(start, end int) []*TreeNode {
+
+	if start > end {
+		return []*TreeNode{nil}
+	}
+
+	if start == end {
+		return []*TreeNode{&TreeNode{Val: start}}
+	}
+
+	if start == end-1 {
+		one := TreeNode{Val: start, Right: &TreeNode{Val: end}}
+		two := TreeNode{Val: end, Left: &TreeNode{Val: start}}
+		return []*TreeNode{&one, &two}
+	}
+
+	res := make([]*TreeNode, 0)
+	for i := start; i <= end; i++ {
+
+		//left
+		left := generateTreesWithStartEndValue(start, i-1)
+		//right
+		right := generateTreesWithStartEndValue(i+1, end)
+
+		for j := 0; j < len(left); j++ {
+			for k := 0; k < len(right); k++ {
+				tempRoot := &TreeNode{Val: i}
+				tempRoot.Left = left[j]
+				tempRoot.Right = right[k]
+				res = append(res, tempRoot)
+			}
+		}
+	}
+
+	return res
+}
