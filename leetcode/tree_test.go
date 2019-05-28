@@ -514,3 +514,38 @@ func buildTree(preorder []int, inorder []int) *TreeNode {
 	return rootNode
 
 }
+
+/**
+106. Construct Binary Tree from Inorder and Postorder Traversal
+https://leetcode.com/problems/construct-binary-tree-from-inorder-and-postorder-traversal/
+*/
+
+func buildTree2(inorder []int, postorder []int) *TreeNode {
+
+	if inorder == nil || len(inorder) == 0 {
+		return nil
+	}
+	if len(inorder) == 1 {
+		return &TreeNode{Val: inorder[0]}
+	}
+
+	root := postorder[len(postorder)-1]
+	rootNode := &TreeNode{Val: root}
+	rootIndex := 0
+	for i := 0; i < len(inorder); i++ {
+		if inorder[i] == root {
+			rootIndex = i
+			break
+		}
+	}
+
+	leftInorder := inorder[:rootIndex]
+	leftPostOrder := postorder[:len(leftInorder)]
+	rightInorder := inorder[rootIndex+1:]
+	rightPostOrder := postorder[len(leftInorder) : len(leftInorder)+len(rightInorder)]
+	rootNode.Left = buildTree(leftInorder, leftPostOrder)
+	rootNode.Right = buildTree(rightInorder, rightPostOrder)
+
+	return rootNode
+
+}
