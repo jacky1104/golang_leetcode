@@ -549,3 +549,34 @@ func buildTree2(inorder []int, postorder []int) *TreeNode {
 	return rootNode
 
 }
+
+/**
+108. Convert Sorted Array to Binary Search Tree
+https://leetcode.com/problems/convert-sorted-array-to-binary-search-tree/
+*/
+func sortedArrayToBST(nums []int) *TreeNode {
+
+	if nums == nil || len(nums) == 0 {
+		return nil
+	}
+
+	if len(nums) == 1 {
+		return &TreeNode{Val: nums[0]}
+	}
+
+	if len(nums) == 2 {
+		return &TreeNode{Val: nums[0], Right: &TreeNode{Val: nums[1]}}
+	}
+
+	if len(nums) == 3 {
+		return &TreeNode{Val: nums[1], Left: &TreeNode{Val: nums[0]}, Right: &TreeNode{Val: nums[2]}}
+	}
+
+	middle := len(nums) / 2
+
+	root := &TreeNode{Val: nums[middle]}
+	root.Left = sortedArrayToBST(nums[:middle])
+	root.Right = sortedArrayToBST(nums[middle+1:])
+
+	return root
+}
