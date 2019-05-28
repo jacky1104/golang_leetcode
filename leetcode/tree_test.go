@@ -479,3 +479,38 @@ func generateTreesWithStartEndValue(start, end int) []*TreeNode {
 
 	return res
 }
+
+/**
+105. Construct Binary Tree from Preorder and Inorder Traversal
+https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/
+*/
+func buildTree(preorder []int, inorder []int) *TreeNode {
+
+	if preorder == nil || len(preorder) == 0 {
+		return nil
+	}
+	if len(preorder) == 1 {
+		return &TreeNode{Val: preorder[0]}
+	}
+
+	root := preorder[0]
+	rootNode := &TreeNode{Val: root}
+	rootIndex := 0
+	for i := 0; i < len(inorder); i++ {
+		if inorder[i] == root {
+			rootIndex = i
+			break
+		}
+	}
+
+	leftInorder := inorder[:rootIndex]
+	leftPreorder := preorder[1 : len(leftInorder)+1]
+	rightInorder := inorder[rootIndex+1:]
+	rightPreorder := preorder[1+len(leftInorder):]
+
+	rootNode.Left = buildTree(leftPreorder, leftInorder)
+	rootNode.Right = buildTree(rightPreorder, rightInorder)
+
+	return rootNode
+
+}
