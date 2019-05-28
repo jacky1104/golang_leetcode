@@ -1,6 +1,7 @@
 package leetcode
 
 import (
+	"fmt"
 	"strconv"
 )
 
@@ -579,4 +580,72 @@ func sortedArrayToBST(nums []int) *TreeNode {
 	root.Right = sortedArrayToBST(nums[middle+1:])
 
 	return root
+}
+
+/**
+ * Definition for singly-linked list.
+ * type ListNode struct {
+ *     Val int
+ *     Next *ListNode
+ * }
+ */
+
+type ListNode struct {
+	Val  int
+	Next *ListNode
+}
+
+/**
+109. Convert Sorted List to Binary Search Tree
+https://leetcode.com/problems/convert-sorted-list-to-binary-search-tree/
+*/
+func sortedListToBST(head *ListNode) *TreeNode {
+	return sortedListToBST2(head, nil)
+}
+
+func sortedListToBST2(head *ListNode, tail *ListNode) *TreeNode {
+
+	if head == nil {
+		return nil
+	}
+	// one node
+	if head.Next == nil || head == tail {
+		return &TreeNode{Val: head.Val}
+	}
+
+	// two node
+	if head.Next == tail || head.Next.Next == nil {
+		return &TreeNode{Val: head.Val, Right: &TreeNode{Val: head.Next.Val}}
+	}
+
+	//three node
+	if head.Next.Next.Next == nil {
+		return &TreeNode{Val: head.Next.Val, Left: &TreeNode{Val: head.Val}, Right: &TreeNode{Val: head.Next.Next.Val}}
+	}
+	count := 0
+	fmt.Println("head", head.Val)
+	for pos := head; pos != tail; pos = pos.Next {
+		count++
+	}
+	if tail != nil {
+		count++
+	}
+
+	middleIndex := count / 2
+	midPtr := head
+	for i := 0; i < middleIndex; i++ {
+		midPtr = midPtr.Next
+	}
+	fmt.Println("middle", midPtr.Val)
+
+	preMiddlePtr := head
+	for preMiddlePtr.Next != midPtr {
+		preMiddlePtr = preMiddlePtr.Next
+	}
+	left := sortedListToBST2(head, preMiddlePtr)
+	right := sortedListToBST2(midPtr.Next, tail)
+	root := &TreeNode{Val: midPtr.Val, Left: left, Right: right}
+
+	return root
+
 }
