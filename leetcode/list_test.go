@@ -25,3 +25,35 @@ func reverseList(head *ListNode) *ListNode {
 	return newHead
 
 }
+
+/**
+92. Reverse Linked List II
+https://leetcode.com/problems/reverse-linked-list-ii/
+*/
+func reverseBetween(head *ListNode, m int, n int) *ListNode {
+
+	if head == nil || head.Next == nil {
+		return head
+	}
+
+	dummy := &ListNode{Val: 0, Next: head}
+
+	pre := dummy
+	for i := 0; i < m-1; i++ {
+		pre = pre.Next
+	}
+
+	start := pre.Next
+	then := start.Next
+
+	for i := 0; i < n-m; i++ {
+
+		start.Next = then.Next
+		then.Next = pre.Next
+		pre.Next = then
+		then = start.Next
+	}
+
+	return dummy.Next
+
+}
