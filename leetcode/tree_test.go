@@ -649,3 +649,29 @@ func sortedListToBST2(head *ListNode, tail *ListNode) *TreeNode {
 	return root
 
 }
+
+/**
+114. Flatten Binary Tree to Linked List
+https://leetcode.com/problems/flatten-binary-tree-to-linked-list/
+*/
+func flatten(root *TreeNode) {
+
+	if root == nil || (root.Left == nil && root.Right == nil) {
+		return
+	}
+
+	flatten(root.Right)
+	flatten(root.Left)
+
+	left := root.Left
+	for left != nil && left.Right != nil {
+		left = left.Right
+	}
+
+	if left != nil {
+		left.Right = root.Right
+		root.Right = root.Left
+		root.Left = nil
+	}
+
+}
