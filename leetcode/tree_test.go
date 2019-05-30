@@ -675,3 +675,69 @@ func flatten(root *TreeNode) {
 	}
 
 }
+
+/**
+129. Sum Root to Leaf Numbers
+https://leetcode.com/problems/sum-root-to-leaf-numbers/
+*/
+func sumNumbers(root *TreeNode) int {
+
+	path := dfsPath(root)
+	sum := 0
+
+	for _, v := range path {
+		i, _ := strconv.Atoi(v)
+		sum += i
+	}
+	return sum
+
+}
+
+func dfsPath(root *TreeNode) []string {
+
+	if root == nil {
+		return nil
+	}
+	if root.Left == nil && root.Right == nil {
+		return []string{strconv.Itoa(root.Val)}
+	}
+
+	path := make([]string, 0)
+	leftPath := dfsPath(root.Left)
+	for i := 0; i < len(leftPath); i++ {
+		leftPath[i] = strconv.Itoa(root.Val) + leftPath[i]
+	}
+
+	rightPath := dfsPath(root.Right)
+	for i := 0; i < len(rightPath); i++ {
+		rightPath[i] = strconv.Itoa(root.Val) + rightPath[i]
+	}
+	path = append(path, leftPath...)
+	path = append(path, rightPath...)
+
+	return path
+
+}
+
+/**
+129. Sum Root to Leaf Numbers
+https://leetcode.com/problems/sum-root-to-leaf-numbers/
+*/
+func sumNumbers2(root *TreeNode) int {
+
+	return sumNumbers3(root, 0)
+
+}
+
+func sumNumbers3(root *TreeNode, high int) int {
+
+	if root == nil {
+		return 0
+	}
+	if root.Left == nil && root.Right == nil {
+		return root.Val + high*10
+	}
+
+	return sumNumbers3(root.Left, high*10+root.Val) + sumNumbers3(root.Right, high*10+root.Val)
+
+}
