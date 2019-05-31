@@ -57,3 +57,29 @@ func reverseBetween(head *ListNode, m int, n int) *ListNode {
 	return dummy.Next
 
 }
+
+/*
+203. Remove Linked List Elements
+https://leetcode.com/problems/remove-linked-list-elements/
+*/
+func removeElements(head *ListNode, val int) *ListNode {
+
+	if head == nil {
+		return head
+	}
+
+	for head != nil && head.Val == val {
+		head = head.Next
+	}
+
+	temp := head
+	for temp != nil && temp.Next != nil {
+		if temp.Next.Val == val {
+			temp.Next = temp.Next.Next
+		} else {
+			temp = temp.Next
+		}
+	}
+
+	return head
+}
