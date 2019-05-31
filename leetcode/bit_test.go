@@ -160,3 +160,25 @@ func isPowerOfThree(n int) bool {
 	return n == 1
 
 }
+
+/**
+342. Power of Four
+https://leetcode.com/problems/power-of-four/
+*/
+
+func isPowerOfFour(num int) bool {
+
+	if num < 1 {
+		return false
+	}
+
+	for num > 1 {
+		if num%4 != 0 {
+			return false
+		}
+
+		num = num >> 2
+	}
+
+	return num == 1
+}
