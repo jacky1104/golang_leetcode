@@ -1,6 +1,7 @@
 package leetcode
 
 import (
+	"errors"
 	"fmt"
 	"strconv"
 )
@@ -740,4 +741,53 @@ func sumNumbers3(root *TreeNode, high int) int {
 
 	return sumNumbers3(root.Left, high*10+root.Val) + sumNumbers3(root.Right, high*10+root.Val)
 
+}
+
+/**
+993. Cousins in Binary Tree
+https://leetcode.com/problems/cousins-in-binary-tree/
+*/
+func isCousins(root *TreeNode, x int, y int) bool {
+
+	if root == nil {
+		return false
+	}
+	if x == y {
+		return false
+	}
+	xd, xp, xerr := findDepthAndParentValue(root, x)
+	yd, yp, yerr := findDepthAndParentValue(root, y)
+
+	if xerr == nil && yerr == nil && xd == yd && xp != yp {
+		return true
+	}
+
+	return false
+}
+
+func findDepthAndParentValue(root *TreeNode, val int) (int, int, error) {
+	if root == nil {
+		return -1, -1, errors.New("not found")
+	}
+
+	if root.Val == val {
+		return 0, -1, errors.New("not found")
+	}
+
+	if (root.Left != nil && root.Left.Val == val) || (root.Right != nil && root.Right.Val == val) {
+		return 1, root.Val, nil
+	}
+
+	ld, lp, errl := findDepthAndParentValue(root.Left, val)
+
+	if errl == nil {
+		return ld + 1, lp, nil
+	}
+	rd, rp, err2 := findDepthAndParentValue(root.Right, val)
+
+	if err2 == nil {
+		return rd + 1, rp, nil
+	}
+
+	return -1, -1, errors.New("not found")
 }
