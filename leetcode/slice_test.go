@@ -53,3 +53,38 @@ func removeDuplicates2(nums []int) int {
 
 	return count
 }
+
+/**
+80. Remove Duplicates from Sorted Array II
+https://leetcode.com/problems/remove-duplicates-from-sorted-array-ii/
+*/
+func removeDuplicates3(nums []int) int {
+
+	if nums == nil || len(nums) == 0 {
+		return 0
+	}
+
+	if len(nums) == 1 || len(nums) == 2 {
+		return len(nums)
+	}
+	curIndex := 0
+	duplicateCount := 1
+
+	for i := 1; i < len(nums); i++ {
+		if nums[i] != nums[curIndex] {
+			curIndex++
+			nums[curIndex] = nums[i]
+			duplicateCount = 1
+		} else {
+			duplicateCount++
+		}
+
+		if duplicateCount == 2 {
+			curIndex++
+			nums[curIndex] = nums[i]
+		}
+	}
+	nums = nums[:curIndex+1]
+
+	return len(nums)
+}
