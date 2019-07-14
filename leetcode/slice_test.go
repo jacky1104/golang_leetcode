@@ -88,3 +88,32 @@ func removeDuplicates3(nums []int) int {
 
 	return len(nums)
 }
+
+/**
+744. Find Smallest Letter Greater Than Target
+https://leetcode.com/problems/find-smallest-letter-greater-than-target/
+*/
+func nextGreatestLetter(letters []byte, target byte) byte {
+	if target < letters[0] || target >= letters[len(letters)-1] {
+		return letters[0]
+	}
+
+	length := len(letters)
+	start, end := 0, length-1
+
+	for end-start > 1 {
+		middle := start + (end-start)/2
+
+		if letters[middle] > target {
+			end = middle
+		} else {
+			start = middle
+		}
+
+	}
+
+	if letters[start] > target {
+		return letters[start]
+	}
+	return letters[end]
+}
