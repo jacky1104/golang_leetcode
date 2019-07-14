@@ -117,3 +117,20 @@ func nextGreatestLetter(letters []byte, target byte) byte {
 	}
 	return letters[end]
 }
+
+func nextGreatestLetter1(letters []byte, target byte) byte {
+	if target >= letters[len(letters)-1] {
+		return letters[0]
+	}
+
+	l, h := 0, len(letters)-1
+	for l < h {
+		m := l + (h-l)/2
+		if letters[m] > target {
+			h = m
+		} else {
+			l = m + 1
+		}
+	}
+	return letters[h]
+}
