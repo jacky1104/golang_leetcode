@@ -101,9 +101,8 @@ func deleteDuplicates(head *ListNode) *ListNode {
 		return head
 	}
 
-	virHeadVal := head.Val*-1 - 1
-	virHead := &ListNode{Val: virHeadVal, Next: head}
-	preNode, currentNode := virHead, virHead
+	virHead := &ListNode{Next: head}
+	preNode, currentNode := virHead, virHead.Next
 
 	for currentNode != nil && currentNode.Next != nil {
 
