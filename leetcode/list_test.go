@@ -123,3 +123,24 @@ func deleteDuplicates(head *ListNode) *ListNode {
 	return virHead.Next
 
 }
+
+/**
+83. Remove Duplicates from Sorted List
+https://leetcode.com/problems/remove-duplicates-from-sorted-list/
+*/
+func deleteDuplicates1(head *ListNode) *ListNode {
+
+	if head == nil || head.Next == nil {
+		return head
+	}
+	temp := head
+	for temp != nil && temp.Next != nil {
+		if temp.Val == temp.Next.Val {
+			temp.Next = temp.Next.Next
+		} else {
+			temp = temp.Next
+		}
+	}
+	return head
+
+}
