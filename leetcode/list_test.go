@@ -83,3 +83,44 @@ func removeElements(head *ListNode, val int) *ListNode {
 
 	return head
 }
+
+/**
+
+82. Remove Duplicates from Sorted List II
+https://leetcode.com/problems/remove-duplicates-from-sorted-list-ii/
+
+ * Definition for singly-linked list.
+ * type ListNode struct {
+ *     Val int
+ *     Next *ListNode
+ * }
+*/
+func deleteDuplicates(head *ListNode) *ListNode {
+
+	if head == nil || head.Next == nil {
+		return head
+	}
+
+	virHeadVal := head.Val*-1 - 1
+	virHead := &ListNode{Val: virHeadVal, Next: head}
+	preNode, currentNode := virHead, virHead
+
+	for currentNode != nil && currentNode.Next != nil {
+
+		if currentNode.Val != currentNode.Next.Val {
+			preNode = currentNode
+			currentNode = currentNode.Next
+		} else {
+			temp := currentNode.Next
+			for temp != nil && temp.Val == currentNode.Val {
+				temp = temp.Next
+			}
+			preNode.Next = temp
+			currentNode = preNode.Next
+		}
+
+	}
+
+	return virHead.Next
+
+}
