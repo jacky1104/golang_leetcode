@@ -144,3 +144,28 @@ func deleteDuplicates1(head *ListNode) *ListNode {
 	return head
 
 }
+
+/**
+19. Remove Nth Node From End of List
+https://leetcode.com/problems/remove-nth-node-from-end-of-list/
+*/
+func removeNthFromEnd(head *ListNode, n int) *ListNode {
+
+	if head == nil || n <= 0 {
+		return head
+	}
+	dummyHead := &ListNode{Next: head}
+	first, second := dummyHead, dummyHead
+
+	for i := 0; i < n && first != nil; i++ {
+		first = first.Next
+	}
+
+	for first.Next != nil {
+		first = first.Next
+		second = second.Next
+	}
+
+	second.Next = second.Next.Next
+	return dummyHead.Next
+}
