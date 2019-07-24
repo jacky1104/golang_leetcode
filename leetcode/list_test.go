@@ -169,3 +169,35 @@ func removeNthFromEnd(head *ListNode, n int) *ListNode {
 	second.Next = second.Next.Next
 	return dummyHead.Next
 }
+
+/**
+86. Partition List
+https://leetcode.com/problems/partition-list/
+*/
+func partition(head *ListNode, x int) *ListNode {
+
+	if head == nil || head.Next == nil {
+		return head
+	}
+
+	dimmyLessNode := &ListNode{}
+	dimmyGreaterNode := &ListNode{}
+
+	dlsTemp := dimmyLessNode
+	dgsTemp := dimmyGreaterNode
+
+	for temp := head; temp != nil; temp = temp.Next {
+
+		if temp.Val < x {
+			dlsTemp.Next = &ListNode{Val: temp.Val}
+			dlsTemp = dlsTemp.Next
+		} else {
+			dgsTemp.Next = &ListNode{Val: temp.Val}
+			dgsTemp = dgsTemp.Next
+		}
+	}
+
+	dlsTemp.Next = dimmyGreaterNode.Next
+
+	return dimmyLessNode.Next
+}
