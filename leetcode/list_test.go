@@ -201,3 +201,39 @@ func partition(head *ListNode, x int) *ListNode {
 
 	return dimmyLessNode.Next
 }
+
+/**
+61. Rotate List
+https://leetcode.com/problems/rotate-list/
+*/
+func rotateRight(head *ListNode, k int) *ListNode {
+
+	if head == nil || head.Next == nil {
+		return head
+	}
+
+	pivotal, last := head, head
+	count := 0
+	for temp := head; temp != nil; temp = temp.Next {
+		count++
+		if temp.Next == nil {
+			last = temp
+		}
+	}
+	mod := k % count
+	if mod == 0 {
+		return head
+	}
+
+	for i := 0; i < count-mod-1; i++ {
+		pivotal = pivotal.Next
+	}
+
+	dimmyNode := &ListNode{Next: head}
+
+	dimmyNode.Next = pivotal.Next
+	pivotal.Next = nil
+	last.Next = head
+
+	return dimmyNode.Next
+}
