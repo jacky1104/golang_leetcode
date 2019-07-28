@@ -40,3 +40,32 @@ func isAnagram(s string, t string) bool {
 	return true
 
 }
+
+func isAnagram2(s string, t string) bool {
+	if len(s) != len(t) {
+		return false
+	}
+	if len(s) == 0 {
+		return true
+	}
+
+	array := [26]byte{}
+	input := []byte(s)
+	for i := 0; i < len(s); i++ {
+		array[input[i]-97]++
+	}
+
+	outPut := []byte(t)
+	for i := 0; i < len(s); i++ {
+		array[outPut[i]-97]--
+	}
+
+	for i := 0; i < len(array); i++ {
+		if array[i] != 0 {
+			return false
+		}
+	}
+
+	return true
+
+}
