@@ -1,5 +1,9 @@
 package leetcode
 
+import (
+	"sort"
+)
+
 /**
 242. Valid Anagram
 https://leetcode.com/problems/valid-anagram/
@@ -68,4 +72,32 @@ func isAnagram2(s string, t string) bool {
 
 	return true
 
+}
+
+/**
+49. Group Anagrams
+https://leetcode.com/problems/group-anagrams/
+*/
+func groupAnagrams(strs []string) [][]string {
+	if len(strs) == 0 || len(strs) == 1 {
+		return [][]string{strs}
+	}
+	mark := make(map[string][]string)
+	for _, str := range strs {
+		k := []byte(str)
+		sort.Slice(k, func(i int, j int) bool { return k[i] < k[j] })
+		if v, ok := mark[string(k)]; ok {
+			mark[string(k)] = append(v, str)
+		} else {
+			mark[string(k)] = []string{str}
+		}
+	}
+
+	result := make([][]string, 0)
+
+	for _, v := range mark {
+		result = append(result, v)
+	}
+
+	return result
 }
