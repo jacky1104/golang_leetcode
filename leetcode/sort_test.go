@@ -101,3 +101,43 @@ func groupAnagrams(strs []string) [][]string {
 
 	return result
 }
+
+/**
+56. Merge Intervals
+https://leetcode.com/problems/merge-intervals/
+*/
+func merge(intervals [][]int) [][]int {
+
+	if len(intervals) <= 1 {
+		return intervals
+	}
+	sort.Slice(intervals, func(i, j int) bool {
+		return intervals[i][0] < intervals[j][0]
+	})
+	//merge
+	i := 0
+	for i < len(intervals)-1 {
+		if intervals[i][1] >= intervals[i+1][0] {
+			if intervals[i][1] < intervals[i+1][1] {
+				intervals[i][1] = intervals[i+1][1]
+			}
+			//delete intervals[i+1]
+			if i+2 >= len(intervals) {
+				intervals = intervals[:i+1]
+			} else {
+				intervals = append(intervals[:i+1], intervals[i+2:]...)
+			}
+		} else {
+			i++
+		}
+	}
+	return intervals
+}
+
+/**
+1122. Relative Sort Array
+https://leetcode.com/problems/relative-sort-array/
+*/
+func relativeSortArray(arr1 []int, arr2 []int) []int {
+
+}
