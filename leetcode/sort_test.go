@@ -1,7 +1,9 @@
 package leetcode
 
 import (
+	"fmt"
 	"sort"
+	"strconv"
 )
 
 /**
@@ -155,5 +157,36 @@ func sortColors(nums []int) {
 			zero++
 		}
 	}
+
+}
+
+/**
+179. Largest Number
+https://leetcode.com/problems/largest-number/
+*/
+func largestNumber(nums []int) string {
+	if len(nums) == 0 {
+		return ""
+	}
+	if len(nums) == 1 {
+		return strconv.Itoa(nums[0])
+	}
+
+	sort.Slice(nums, func(i, j int) bool {
+
+		first, _ := strconv.Atoi(strconv.Itoa(nums[i]) + strconv.Itoa(nums[j]))
+		sec, _ := strconv.Atoi(strconv.Itoa(nums[j]) + strconv.Itoa(nums[i]))
+		return first > sec
+	})
+
+	fmt.Println(nums)
+
+	result := ""
+	for i := 0; i < len(nums); i++ {
+		if nums[i] != 0 || result != "0" {
+			result += strconv.Itoa(nums[i])
+		}
+	}
+	return result
 
 }
