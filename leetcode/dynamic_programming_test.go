@@ -5,6 +5,50 @@ import (
 	"testing"
 )
 
+func maxSubArray(nums []int) int {
+
+	if nums == nil || len(nums) == 0 {
+		return 0
+	}
+	if len(nums) == 1 {
+		return nums[0]
+	}
+
+	return 0
+}
+
+/**
+https://leetcode.com/problems/unique-paths/
+62. Unique Paths
+*/
+func uniquePaths(m int, n int) int {
+
+	if m == 1 || n == 1 {
+		return 1
+	}
+	record := make([][]int, m)
+
+	for i := 0; i < m; i++ {
+		record[i] = make([]int, n)
+	}
+
+	for i := 0; i < m; i++ {
+		record[i][n-1] = 1
+	}
+
+	for i := 0; i < n; i++ {
+		record[m-1][i] = 1
+	}
+
+	for j := m - 2; j >= 0; j-- {
+		for i := n - 2; i >= 0; i-- {
+			record[j][i] = record[j+1][i] + record[j][i+1]
+		}
+	}
+
+	return record[0][0]
+}
+
 func TestHouseRobber(t *testing.T) {
 
 	fmt.Println("House Robber")
@@ -84,7 +128,7 @@ func TestYushu(t *testing.T) {
 	count := 0
 	for i := 0; i < 1000000; i++ {
 		if i%500 > 400 && i%500 < 470 {
-			count ++
+			count++
 		}
 	}
 	fmt.Println("Count:", count)
@@ -225,27 +269,24 @@ func TestUniqueBinarySearchTree(t *testing.T) {
 	fmt.Println(generateTreesOne(5))
 }
 
+func generateTreesOne(n int) int {
 
-
-func generateTreesOne(n int) int{
-
-
-	if n == 1 || n == 2{
-		return  n
+	if n == 1 || n == 2 {
+		return n
 	}
 
-	if n == 3{
+	if n == 3 {
 		return 5
 	}
-	count := make([]int, n + 1)
+	count := make([]int, n+1)
 	count[0] = 1
 	count[1] = 1
 	count[2] = 2
 	count[3] = 5
 
-	for i := 4; i<=n ; i++{
+	for i := 4; i <= n; i++ {
 		//root node value
-		for j := 1; j<=i; j++{
+		for j := 1; j <= i; j++ {
 			//left tree * right tree
 			count[i] += count[j-1] * count[i-j]
 		}
@@ -253,7 +294,6 @@ func generateTreesOne(n int) int{
 	return count[n]
 
 }
-
 
 type TreeNode struct {
 	Val   int
