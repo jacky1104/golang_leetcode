@@ -60,6 +60,72 @@ func uniquePaths(m int, n int) int {
 	return record[0][0]
 }
 
+/**
+63. Unique Paths II
+https://leetcode.com/problems/unique-paths-ii/
+*/
+func uniquePathsWithObstacles2(obstacleGrid [][]int) int {
+
+	if obstacleGrid == nil || len(obstacleGrid) == 0 {
+		return 0
+	}
+
+	m := len(obstacleGrid)
+	n := len(obstacleGrid[0])
+
+	if obstacleGrid[m-1][n-1] == 1 {
+		return 0
+	}
+	record := make([][]int, m)
+
+	for i := 0; i < len(obstacleGrid); i++ {
+		record[i] = make([]int, n)
+	}
+
+	exist := false
+	for i := n - 1; i >= 0; i-- {
+
+		if exist {
+			record[m-1][i] = 0
+			continue
+		}
+		if obstacleGrid[m-1][i] == 1 {
+			record[m-1][i] = 0
+			exist = true
+		} else {
+			record[m-1][i] = 1
+		}
+	}
+
+	exist = false
+	for i := m - 1; i >= 0; i-- {
+
+		if exist {
+			record[i][n-1] = 0
+			continue
+		}
+		if obstacleGrid[i][n-1] == 1 {
+			record[i][n-1] = 0
+			exist = true
+		} else {
+			record[i][n-1] = 1
+		}
+	}
+
+	for j := m - 2; j >= 0; j-- {
+		for i := n - 2; i >= 0; i-- {
+			if obstacleGrid[j][i] == 1 {
+				record[j][i] = 0
+			} else {
+				record[j][i] = record[j+1][i] + record[j][i+1]
+			}
+		}
+	}
+
+	return record[0][0]
+
+}
+
 func TestHouseRobber(t *testing.T) {
 
 	fmt.Println("House Robber")
