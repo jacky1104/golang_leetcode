@@ -377,3 +377,27 @@ type TreeNode struct {
 	Left  *TreeNode
 	Right *TreeNode
 }
+
+/**
+70. Climbing Stairs
+https://leetcode.com/problems/climbing-stairs/
+*/
+
+func climbStairs(n int) int {
+
+	if n == 1 || n == 2 {
+		return n
+	}
+
+	record := make([]int, n+1)
+	for i := 0; i <= n; i++ {
+		if i <= 2 {
+			record[i] = i
+		} else {
+			record[i] = record[i-1] + record[i-2]
+		}
+	}
+
+	return record[n]
+
+}
